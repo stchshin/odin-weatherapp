@@ -9,11 +9,12 @@ body {
     padding: 0;
     margin: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     height: 100vh;
     font-family: 'Open Sans';
-    font-weight: 100;
+    font-weight: 100;;
 }
 
 #main {
@@ -22,6 +23,7 @@ body {
     width: 50rem;
     align-items: center;
     justify-content: center;
+    height: 100%;
     width: 40rem;
     gap: 1rem;
 }
@@ -158,4 +160,16 @@ form input:focus-visible {
 .dayContainer:last-child {
     border: 0;
     box-shadow: none;
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+    font-size: 0.8rem;
+}
+
+footer a {
+    color: black;
 }
