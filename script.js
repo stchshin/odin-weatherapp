@@ -8,6 +8,27 @@ async function weather(location) {
     }
 }
 
+function temperatureSwitch(temperature, currentType) {
+    if (currentType == 'F') {
+        return (Math.round((temperature - 32) * 5 / 9 * 10) / 10).toFixed(1);
+    } else {
+        return (Math.round((temperature * 9 / 5 + 32) * 10) / 10).toFixed(1);
+    }
+}
+
+function toggleTemperature() {
+    document.querySelectorAll('.temperature').forEach(temperature => {
+        const currentTemp = temperature.textContent.slice(0, temperature.textContent.length - 2);
+        if (temperature.dataset.temperature == 'F') {
+            temperature.textContent = `${temperatureSwitch(currentTemp, 'F')}°C`;
+            temperature.dataset.temperature = 'C';
+        } else {
+            temperature.textContent = `${temperatureSwitch(currentTemp, 'C')}°F`;
+            temperature.dataset.temperature = 'F';
+        }
+    })
+}
+
 async function displayWeather(location) {
     const weatherData = await weather(location);
     document.querySelector('#info').textContent = '';
@@ -21,7 +42,6 @@ async function displayWeather(location) {
 
     const current = document.createElement("div");
     current.setAttribute("id", "currentWeather");
-
     
     const city = document.createElement("div");
     city.textContent = location.slice(0, 1).toUpperCase() + location.slice(1).toLowerCase();
@@ -52,6 +72,9 @@ async function displayWeather(location) {
         date.textContent = day.datetime.slice(-5);
         temp.textContent = `${(Math.round(day.temp * 100) / 100).toFixed(1)}°F`;
 
+        temp.setAttribute('data-temperature', 'F');
+        temp.setAttribute('class', 'temperature');
+
         date.style.fontSize = '1rem';
         temp.style.fontSize = '1.4rem';
         
@@ -60,6 +83,11 @@ async function displayWeather(location) {
     }
 
     document.querySelector('#description').textContent = weatherData.description;
+
+    // Toggle temperature units
+    const switchButton = document.querySelector('#temperatureSwitch');
+    switchButton.removeEventListener('click', toggleTemperature);
+    switchButton.addEventListener('click', toggleTemperature);
 }
 
 document.querySelector('button').addEventListener('click', function(event) {
